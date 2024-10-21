@@ -2,7 +2,9 @@ import { isSessionExists, createSession, getSession, getListSessions, deleteSess
 import response from './../response.js'
 
 const find = (req, res) => {
-    response(res, 200, true, 'Session found.')
+    const session = getSession(res.locals.sessionId)
+    
+    response(res, 200, true, 'Session found.', { id: session.user.id })
 }
 
 const status = (req, res) => {
