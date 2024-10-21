@@ -96,10 +96,23 @@ const createSession = async (sessionId, res = null, options = { usePairingCode: 
     // Load store
     store?.readFromFile(sessionsDir(`${sessionId}_store.json`))
 
-    // Save every 10s
-    setInterval(() => {
-        if (existsSync(sessionsDir(sessionFile))) {
-            store?.writeToFile(sessionsDir(`${sessionId}_store.json`))
+    // // Save every 10s
+    // setInterval(() => {
+    //     if (existsSync(sessionsDir(sessionFile))) {
+    //         store?.writeToFile(sessionsDir(`${sessionId}_store.json`))
+    //     }
+    // }, 10000)
+
+    // Saves after 60 seconds
+    let count = 0
+    const maxCount = 6
+    const intervalId = setInterval(() => {
+        count++
+        if (count === maxCount) {
+            if (existsSync(sessionsDir(sessionFile))) {
+                store?.writeToFile(sessionsDir(`${sessionId}_store.json`))
+            }
+            clearInterval(intervalId)
         }
     }, 10000)
 
