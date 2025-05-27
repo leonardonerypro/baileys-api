@@ -134,8 +134,7 @@ const createSession = async (sessionId, res = null, options = { usePairingCode: 
         logger,
         msgRetryCounterCache,
         generateHighQualityLinkPreview: true,
-        browser: ['Ubuntu', 'Chrome', '20.0.04'],
-        getMessage,
+        getMessage,        
     })
     store?.bind(wa.ev)
 
@@ -417,10 +416,8 @@ const deleteSession = (sessionId) => {
 
 const getChatList = (sessionId, isGroup = false) => {
     const filter = isGroup ? '@g.us' : '@s.whatsapp.net'
-
-    return getSession(sessionId).store.chats.filter((chat) => {
-        return chat.id.endsWith(filter)
-    })
+    const chats = getSession(sessionId).store.chats
+    return [...chats.values()].filter(chat => chat.id.endsWith(filter))
 }
 
 /**
